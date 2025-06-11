@@ -1,0 +1,13 @@
+.choices {
+  display: flex;
+  list-style-type: none;
+
+  .choice {
+    margin: 0 1rem;
+
+    button {
+      font-size: 1rem;
+      padding: 0.5rem;
+    }
+  }
+}
