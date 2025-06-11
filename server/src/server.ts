@@ -12,11 +12,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/choices", (req, res) => {
+app.get("/api/choices", (req, res) => {
   res.json(choices);
 });
 
-app.get("/choice", async (req, res) => {
+app.get("/api/choice", async (req, res) => {
   try {
     const url = process.env.RANDOM_NUMBER_URL!;
     const randomNumberResponse = await fetch(url);
@@ -33,10 +33,10 @@ app.get("/choice", async (req, res) => {
   }
 });
 
-app.post("/play", async (req, res) => {
+app.post("/api/play", async (req, res) => {
   try {
     const computerChoiceResponse = await fetch(
-      `http://localhost:${process.env.PORT}/choice`
+      `http://localhost:${process.env.PORT}/api/choice`
     );
     const computerChoice: Choice = await computerChoiceResponse.json();
 
