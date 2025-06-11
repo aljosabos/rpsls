@@ -2,8 +2,10 @@ import express from "express";
 import { choices } from "./constants.js";
 import { getWinner, mapNumberToChoice } from "./utils.js";
 import { Choice } from "./types.js";
+import dotenv from "dotenv";
 
 const app = express();
+dotenv.config();
 app.use(express.json());
 
 app.get("/choices", (req, res) => {
@@ -12,9 +14,8 @@ app.get("/choices", (req, res) => {
 
 app.get("/choice", async (req, res) => {
   try {
-    const randomNumberResponse = await fetch(
-      "https://codechallenge.boohma.com/random"
-    );
+    const url = process.env.RANDOM_NUMBER_URL!;
+    const randomNumberResponse = await fetch(url);
 
     const data = await randomNumberResponse.json();
     const { random_number } = data;
@@ -30,7 +31,9 @@ app.get("/choice", async (req, res) => {
 
 app.post("/play", async (req, res) => {
   try {
-    const computerChoiceResponse = await fetch("http://localhost:3010/choice");
+    const computerChoiceResponse = await fetch(
+      `http://localhost:${process.env.PORT}/choice`
+    );
     const computerChoice: Choice = await computerChoiceResponse.json();
 
     const { player: playerChoice } = req.body;
@@ -51,7 +54,9 @@ app.post("/play", async (req, res) => {
   }
 });
 
-app.listen(3010, () => {
+const PORT = process.env.PORT || 3010;
+
+app.listen(PORT, () => {
   console.log("App is listening on port 3010....");
 });
 
