@@ -3,9 +3,13 @@ import { choices } from "./constants.js";
 import { getWinner, mapNumberToChoice } from "./utils.js";
 import { Choice } from "./types.js";
 import dotenv from "dotenv";
+import cors from "cors";
+
+dotenv.config();
 
 const app = express();
-dotenv.config();
+
+app.use(cors());
 app.use(express.json());
 
 app.get("/choices", (req, res) => {
