@@ -1,8 +1,8 @@
 import type { possibleChoices } from "../constants";
 
-export type Choice = {
+export type TChoice = {
   id: number;
   name: "rock" | "paper" | "scissors" | "lizard" | "spock";
 };
 
-export type ChoiceName = (typeof possibleChoices)[number];
+export type TChoiceName = (typeof possibleChoices)[number];

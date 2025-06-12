@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import styles from "./Home.module.scss";
-import type { Choice, ChoiceName } from "../types/types";
+import type { TChoice, TChoiceName } from "../types/types";
 import { getChoices } from "../api/choise";
 import { playGame, type GameResult } from "../api/play";
 import { possibleChoices } from "../constants";
+import { Choice } from "../components/Choice/Choice";
+import { ChoiceImages } from "./Home.constants";
 
 export const Home = () => {
-  const [choices, setChoices] = useState<Choice[]>([]);
+  const [choices, setChoices] = useState<TChoice[]>([]);
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [gameResult, setGameResult] = useState<GameResult>();
 
@@ -18,7 +20,7 @@ export const Home = () => {
     });
   }, [isGameStarted]);
 
-  const handlePlayGame = async (name: ChoiceName) => {
+  const handlePlayGame = async (name: TChoiceName) => {
     const data = await playGame(name);
 
     if (data) {
@@ -33,41 +35,49 @@ export const Home = () => {
     setGameResult(undefined);
   };
 
+  console.log(choices);
+
   return (
     <div className={styles.container}>
       <div>
-        <p>Click to start the game</p>
-        <button onClick={handleStartGame} className={styles.startBtn}>
+        <p>{isGameStarted ? "Game started" : "Click to start the game"}</p>
+        <button
+          onClick={handleStartGame}
+          className={styles.startBtn}
+          disabled={isGameStarted}
+        >
           Start
         </button>
 
         {gameResult && (
           <div className={styles.result}>
             <p>
-              Computer played{" "}
-              <b>{possibleChoices[gameResult.computerChoice]}</b>
+              You played <b>{possibleChoices[gameResult.player - 1]}</b>
+            </p>
+            <p>
+              Computer played
+              <b>{possibleChoices[gameResult.computerChoice - 1]}</b>
             </p>
 
-            <p>
-              You played <b>{possibleChoices[gameResult.player]}</b>
-            </p>
             <h2>{gameResult.results}</h2>
           </div>
         )}
       </div>
 
       {isGameStarted && (
-        <div>
-          <p>Choose one of the options</p>
-          <ul className={styles.choices}>
+        <div className={styles.choicesWrapper}>
+          <p>Choose one of the options:</p>
+
+          <div className={styles.choices}>
             {choices?.map((choice, index) => (
-              <li key={index} className={styles.choice}>
-                <button onClick={() => handlePlayGame(choice.name)}>
-                  {choice.name}
-                </button>
-              </li>
+              <Choice
+                key={choice.name}
+                title={choice.name}
+                imageSrc={ChoiceImages[index]}
+                onClick={() => handlePlayGame(choice.name)}
+              />
             ))}
-          </ul>
+          </div>
         </div>
       )}
     </div>
