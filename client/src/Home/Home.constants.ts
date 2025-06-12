@@ -1,8 +1,8 @@
 import Paper from "../../public/images/paper.png";
 import Rock from "../../public/images/rock.png";
-import Scissors from "../../public/images/rock.png";
-import Lizard from "../../public/images/rock.png";
-import Spock from "../../public/images/rock.png";
+import Scissors from "../../public/images/scissors.png";
+import Lizard from "../../public/images/lizard.png";
+import Spock from "../../public/images/spock.png";
 import type { TChoiceName } from "../types/types";
 
 export const ChoiceCardsConfig: Record<
@@ -30,5 +30,3 @@ export const ChoiceCardsConfig: Record<
     image: Spock,
   },
 };
-
-export const ChoiceImages = [Rock, Paper, Scissors, Lizard, Spock];

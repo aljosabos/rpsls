@@ -39,13 +39,26 @@ export const Result = ({ player, computer, result }: TResult) => {
     };
   }, []);
 
-  const computerImage =
-    ChoiceCardsConfig[currentRandomChoice ?? computer!]?.image;
+  const computerImage = showComputerChoice
+    ? ChoiceCardsConfig[computer!].image
+    : currentRandomChoice
+    ? ChoiceCardsConfig[currentRandomChoice!].image
+    : undefined;
 
   return (
     <div className={styles.container}>
-      <div className={styles.card}>
-        <h2>you</h2>
+      <div
+        className={`${styles.card} ${
+          showComputerChoice && result === "win"
+            ? styles.cardWin
+            : showComputerChoice && result === "lose"
+            ? styles.cardLose
+            : showComputerChoice && result === "tie"
+            ? styles.cardTie
+            : ""
+        }`}
+      >
+        <h2>player</h2>
         <Choice
           title={player}
           imageSrc={player && ChoiceCardsConfig[player].image}

@@ -46,3 +46,35 @@
     transform: rotate(1turn);
   }
 }
+.card {
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background-color: transparent;
+  transition: height 0.2s ease-out;
+  z-index: -1;
+}
+
+.cardWin::after {
+  background-color: #10b981;
+  height: 100%;
+}
+
+.cardLose::after {
+  background-color: #ef4444;
+  height: 100%;
+}
+
+.cardTie::after {
+  background-color: #bfdbfe;
+  height: 100%;
+}
