@@ -63,7 +63,7 @@ export const Home = () => {
           className={styles.startBtn}
           disabled={isGameStarted}
         >
-          Start
+          {gameResult ? "Play again" : "Play"}
         </button>
 
         {gameResult && (
