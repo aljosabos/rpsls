@@ -1,1 +1,1 @@
-export const choices = ["rock", "paper", "scissors", "lizard", "spock"];
+export const possibleChoices = ["rock", "paper", "scissors", "lizard", "spock"];
