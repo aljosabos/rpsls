@@ -1,4 +1,4 @@
-import type { ChoiceName } from "../types/types";
+import type { TChoiceName } from "../types/types";
 
 export type GameResult = {
   results: "win" | "lose" | "tie";
@@ -7,7 +7,7 @@ export type GameResult = {
 };
 
 export const playGame = async (
-  name: ChoiceName
+  name: TChoiceName
 ): Promise<GameResult | undefined> => {
   try {
     const response = await fetch("/api/play", {

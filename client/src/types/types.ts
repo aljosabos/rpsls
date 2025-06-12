@@ -2,7 +2,9 @@ import type { possibleChoices } from "../constants";
 
 export type TChoice = {
   id: number;
-  name: "rock" | "paper" | "scissors" | "lizard" | "spock";
+  name: TChoiceName;
 };
 
-export type TChoiceName = (typeof possibleChoices)[number];
+export type TChoiceName = "rock" | "paper" | "scissors" | "lizard" | "spock";
+
+// export type TChoiceName = (typeof possibleChoices)[number];

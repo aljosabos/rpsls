@@ -3,33 +3,32 @@ import Rock from "../../public/images/rock.png";
 import Scissors from "../../public/images/rock.png";
 import Lizard from "../../public/images/rock.png";
 import Spock from "../../public/images/rock.png";
+import type { TChoiceName } from "../types/types";
 
-export const ChoiceCardsConfig = [
-  {
+export const ChoiceCardsConfig: Record<
+  TChoiceName,
+  { title: string; image: string }
+> = {
+  rock: {
     title: "Rock",
     image: Rock,
-    name: "rock",
   },
-  {
+  paper: {
     title: "Paper",
     image: Paper,
-    name: "paper",
   },
-  {
+  scissors: {
     title: "Scissors",
     image: Scissors,
-    name: "scissors",
   },
-  {
+  lizard: {
     title: "Lizard",
     image: Lizard,
-    name: "lizard",
   },
-  {
+  spock: {
     title: "Spock",
     image: Spock,
-    name: "spock",
   },
-];
+};
 
 export const ChoiceImages = [Rock, Paper, Scissors, Lizard, Spock];

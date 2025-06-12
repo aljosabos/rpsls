@@ -1,16 +1,35 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "./Home.module.scss";
 import type { TChoice, TChoiceName } from "../types/types";
 import { getChoices } from "../api/choise";
 import { playGame, type GameResult } from "../api/play";
-import { possibleChoices } from "../constants";
 import { Choice } from "../components/Choice/Choice";
-import { ChoiceImages } from "./Home.constants";
+import { ChoiceCardsConfig, ChoiceImages } from "./Home.constants";
+import { Result } from "../components/Result/Result";
+
+interface IChoicesMade {
+  player: TChoiceName | undefined;
+  computer: TChoiceName | undefined;
+}
 
 export const Home = () => {
   const [choices, setChoices] = useState<TChoice[]>([]);
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [gameResult, setGameResult] = useState<GameResult>();
+
+  const choicesMade: IChoicesMade = useMemo(() => {
+    const playerChoice = choices.find(
+      (choice) => choice.id === gameResult?.player
+    );
+    const computerChoice = choices.find(
+      (choice) => choice.id === gameResult?.computerChoice
+    );
+
+    return {
+      player: playerChoice?.name,
+      computer: computerChoice?.name,
+    };
+  }, [choices, gameResult?.computerChoice, gameResult?.player]);
 
   useEffect(() => {
     if (!isGameStarted) return;
@@ -35,8 +54,6 @@ export const Home = () => {
     setGameResult(undefined);
   };
 
-  console.log(choices);
-
   return (
     <div className={styles.container}>
       <div>
@@ -50,17 +67,11 @@ export const Home = () => {
         </button>
 
         {gameResult && (
-          <div className={styles.result}>
-            <p>
-              You played <b>{possibleChoices[gameResult.player - 1]}</b>
-            </p>
-            <p>
-              Computer played
-              <b>{possibleChoices[gameResult.computerChoice - 1]}</b>
-            </p>
-
-            <h2>{gameResult.results}</h2>
-          </div>
+          <Result
+            player={choicesMade.player}
+            computer={choicesMade.computer}
+            result={gameResult.results}
+          />
         )}
       </div>
 
@@ -69,11 +80,11 @@ export const Home = () => {
           <p>Choose one of the options:</p>
 
           <div className={styles.choices}>
-            {choices?.map((choice, index) => (
+            {choices?.map((choice) => (
               <Choice
                 key={choice.name}
                 title={choice.name}
-                imageSrc={ChoiceImages[index]}
+                imageSrc={ChoiceCardsConfig[choice.name].image}
                 onClick={() => handlePlayGame(choice.name)}
               />
             ))}
