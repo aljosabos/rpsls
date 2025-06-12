@@ -4,8 +4,13 @@ import { getWinner, mapNumberToChoice } from "./utils.js";
 import { Choice } from "./types.js";
 import dotenv from "dotenv";
 import cors from "cors";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 
@@ -57,6 +62,8 @@ app.post("/api/play", async (req, res) => {
     console.log(err);
   }
 });
+
+app.use(express.static(join(__dirname, "../../client/dist")));
 
 const PORT = process.env.PORT || 3010;
 

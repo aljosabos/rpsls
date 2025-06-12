@@ -4,7 +4,7 @@ import type { TChoice, TChoiceName } from "../types/types";
 import { getChoices } from "../api/choise";
 import { playGame, type GameResult } from "../api/play";
 import { Choice } from "../components/Choice/Choice";
-import { ChoiceCardsConfig, ChoiceImages } from "./Home.constants";
+import { ChoiceCardsConfig } from "./Home.constants";
 import { Result } from "../components/Result/Result";
 
 interface IChoicesMade {
