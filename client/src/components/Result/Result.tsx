@@ -3,6 +3,7 @@ import { ChoiceCardsConfig } from "../../Home/Home.constants";
 import type { TChoiceName } from "../../types/types";
 import { Choice } from "../Choice/Choice";
 import styles from "./Result.module.scss";
+import { getCardClass } from "./Result.helpers";
 
 interface TResult {
   player?: TChoiceName;
@@ -39,26 +40,18 @@ export const Result = ({ player, computer, result }: TResult) => {
     };
   }, []);
 
-  const computerImage = showComputerChoice
-    ? ChoiceCardsConfig[computer!].image
-    : currentRandomChoice
-    ? ChoiceCardsConfig[currentRandomChoice!].image
-    : undefined;
+  const computerImage =
+    ChoiceCardsConfig[showComputerChoice ? computer! : currentRandomChoice!]
+      ?.image;
 
   return (
     <div className={styles.container}>
       <div
         className={`${styles.card} ${
-          showComputerChoice && result === "win"
-            ? styles.cardWin
-            : showComputerChoice && result === "lose"
-            ? styles.cardLose
-            : showComputerChoice && result === "tie"
-            ? styles.cardTie
-            : ""
+          showComputerChoice && getCardClass("player", result)
         }`}
       >
-        <h2>player</h2>
+        <h2>you {showComputerChoice && result !== "tie" && result}</h2>
         <Choice
           title={player}
           imageSrc={player && ChoiceCardsConfig[player].image}
@@ -71,8 +64,11 @@ export const Result = ({ player, computer, result }: TResult) => {
           <div className={styles.loader} />
         )}
       </span>
-
-      <div className={styles.card}>
+      <div
+        className={`${styles.card} ${
+          showComputerChoice && getCardClass("computer", result)
+        }`}
+      >
         <h2>computer</h2>
         <Choice title={computer} imageSrc={computerImage} />
       </div>
