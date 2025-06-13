@@ -1,4 +1,4 @@
-import styles from "./Result.module.scss";
+import styles from "./Gameplay.module.scss";
 
 export const getCardClass = (
   side: "player" | "computer",

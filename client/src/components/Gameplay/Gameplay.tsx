@@ -1,32 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ChoiceCardsConfig } from "../../Home/Home.constants";
 import type { TChoiceName } from "../../types/types";
 import { Choice } from "../Choice/Choice";
-import styles from "./Result.module.scss";
-import { getCardClass } from "./Result.helpers";
+import styles from "./Gameplay.module.scss";
+import { getCardClass } from "./Gameplay.helpers";
+import { gameChoices, resultColorMap } from "./Gameplay.constants";
 
-interface TResult {
+interface IGameplayProps {
   player?: TChoiceName;
   computer?: TChoiceName;
   result: "win" | "lose" | "tie";
 }
 
-const options: TChoiceName[] = ["rock", "paper", "scissors", "lizard", "spock"];
-
-const resultColorMap: Record<"win" | "lose" | "tie", string> = {
-  win: "#10B981",
-  lose: "#EF4444",
-  tie: "#BFDBFE",
-};
-
-export const Result = ({ player, computer, result }: TResult) => {
+export const Gameplay = ({ player, computer, result }: IGameplayProps) => {
   const [showComputerChoice, setShowComputerChoice] = useState(false);
   const [currentRandomChoice, setCurrentRandomChoice] = useState<TChoiceName>();
 
   useEffect(() => {
     const interval = setInterval(() => {
       const randomNum = Math.floor(Math.random() * 5);
-      setCurrentRandomChoice(options[randomNum]);
+      setCurrentRandomChoice(gameChoices[randomNum]);
     }, 80);
 
     const timeout = setTimeout(() => {
@@ -40,9 +33,11 @@ export const Result = ({ player, computer, result }: TResult) => {
     };
   }, []);
 
-  const computerImage =
-    ChoiceCardsConfig[showComputerChoice ? computer! : currentRandomChoice!]
-      ?.image;
+  const computerImage = useMemo(() => {
+    return ChoiceCardsConfig[
+      showComputerChoice ? computer! : currentRandomChoice!
+    ]?.image;
+  }, [computer, currentRandomChoice, showComputerChoice]);
 
   return (
     <div className={styles.container}>

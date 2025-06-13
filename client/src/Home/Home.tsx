@@ -5,7 +5,7 @@ import { getChoices } from "../api/choise";
 import { playGame, type GameResult } from "../api/play";
 import { Choice } from "../components/Choice/Choice";
 import { ChoiceCardsConfig } from "./Home.constants";
-import { Result } from "../components/Result/Result";
+import { Gameplay } from "../components/Gameplay/Gameplay";
 
 interface IChoicesMade {
   player: TChoiceName | undefined;
@@ -57,6 +57,7 @@ export const Home = () => {
   return (
     <div className={styles.container}>
       <div>
+        <h1>Welcome to the Rock, Paper, Scissors, Lizard, Spock Game</h1>
         <p>{isGameStarted ? "Game started" : "Click to start the game"}</p>
         <button
           onClick={handleStartGame}
@@ -67,7 +68,7 @@ export const Home = () => {
         </button>
 
         {gameResult && (
-          <Result
+          <Gameplay
             player={choicesMade.player}
             computer={choicesMade.computer}
             result={gameResult.results}
