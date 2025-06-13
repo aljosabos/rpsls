@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import styles from "./Home.module.scss";
 import type { TChoice, TChoiceName } from "../types/types";
 import { getChoices } from "../api/choise";
@@ -14,10 +14,16 @@ interface IChoicesMade {
   computer: TChoiceName | undefined;
 }
 
+export type TScoreEntry = IChoicesMade & {
+  result: "win" | "lose" | "tie" | undefined;
+};
+
 export const Home = () => {
   const [choices, setChoices] = useState<TChoice[]>([]);
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [gameResult, setGameResult] = useState<GameResult>();
+
+  const [score, setScore] = useState<TScoreEntry[]>([]);
 
   const choicesMade: IChoicesMade = useMemo(() => {
     const playerChoice = choices.find(
@@ -56,6 +62,24 @@ export const Home = () => {
     setGameResult(undefined);
   };
 
+  const handleAddScore = useCallback(() => {
+    setScore((currScore) => {
+      const newScore = {
+        player: choicesMade.player,
+        computer: choicesMade.computer,
+        result: gameResult?.results,
+      };
+      let updatedScore: TScoreEntry[] = [];
+
+      if (currScore.length >= 10) {
+        updatedScore = [...currScore, newScore].slice(1);
+      } else {
+        updatedScore = [...currScore, newScore];
+      }
+
+      return updatedScore;
+    });
+  }, [choicesMade.computer, choicesMade.player, gameResult?.results]);
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -75,6 +99,7 @@ export const Home = () => {
               player={choicesMade.player}
               computer={choicesMade.computer}
               result={gameResult.results}
+              onAnimationComplete={handleAddScore}
             />
           )}
         </div>
@@ -98,7 +123,7 @@ export const Home = () => {
         </div>
       </div>
       <aside className={styles.sidebar}>
-        <Score />
+        <Score score={score} />
 
         <div className={styles.rules}>
           <h2>Game rules</h2>

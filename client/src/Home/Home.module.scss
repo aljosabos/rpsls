@@ -78,6 +78,9 @@
 }
 
 .sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 26%;
   margin: 1rem auto;
   padding: 2rem;

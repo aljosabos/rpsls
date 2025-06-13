@@ -10,50 +10,59 @@ interface IGameplayProps {
   player?: TChoiceName;
   computer?: TChoiceName;
   result: "win" | "lose" | "tie";
+  onAnimationComplete: () => void;
 }
 
-export const Gameplay = ({ player, computer, result }: IGameplayProps) => {
-  const [showComputerChoice, setShowComputerChoice] = useState(false);
-  const [currentRandomChoice, setCurrentRandomChoice] = useState<TChoiceName>();
+export const Gameplay = ({
+  player,
+  computer,
+  result,
+  onAnimationComplete,
+}: IGameplayProps) => {
+  const [isComputerChoiceRevealed, setIsComputerChoiceRevealed] =
+    useState(false);
+  const [animatedComputerChoice, setAnimatedComputerChoice] =
+    useState<TChoiceName>();
 
   useEffect(() => {
     const interval = setInterval(() => {
       const randomNum = Math.floor(Math.random() * 5);
-      setCurrentRandomChoice(gameChoices[randomNum]);
+      setAnimatedComputerChoice(gameChoices[randomNum]);
     }, 80);
 
     const timeout = setTimeout(() => {
       clearInterval(interval);
-      setShowComputerChoice(true);
+      setIsComputerChoiceRevealed(true);
+      onAnimationComplete();
     }, 1700);
 
     return () => {
       clearInterval(interval);
       clearTimeout(timeout);
     };
-  }, []);
+  }, [onAnimationComplete]);
 
   const computerImage = useMemo(() => {
     return ChoiceCardsConfig[
-      showComputerChoice ? computer! : currentRandomChoice!
+      isComputerChoiceRevealed ? computer! : animatedComputerChoice!
     ]?.image;
-  }, [computer, currentRandomChoice, showComputerChoice]);
+  }, [computer, animatedComputerChoice, isComputerChoiceRevealed]);
 
   return (
     <div className={styles.container}>
       <div
         className={`${styles.card} ${
-          showComputerChoice && getCardClass("player", result)
+          isComputerChoiceRevealed && getCardClass("player", result)
         }`}
       >
-        <h2>you {showComputerChoice && result !== "tie" && result}</h2>
+        <h2>you {isComputerChoiceRevealed && result !== "tie" && result}</h2>
         <Choice
           title={player}
           imageSrc={player && ChoiceCardsConfig[player].image}
         />
       </div>
       <span className={styles.result}>
-        {showComputerChoice ? (
+        {isComputerChoiceRevealed ? (
           <div style={{ color: resultColorMap[result] }}>{result}</div>
         ) : (
           <div className={styles.loader} />
@@ -61,7 +70,7 @@ export const Gameplay = ({ player, computer, result }: IGameplayProps) => {
       </span>
       <div
         className={`${styles.card} ${
-          showComputerChoice && getCardClass("computer", result)
+          isComputerChoiceRevealed && getCardClass("computer", result)
         }`}
       >
         <h2>computer</h2>

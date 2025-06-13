@@ -1,6 +1,11 @@
+import type { TScoreEntry } from "../../Home/Home";
 import styles from "./Score.module.scss";
 
-export const Score = () => {
+interface IScore {
+  score: TScoreEntry[];
+}
+
+export const Score = ({ score }: IScore) => {
   return (
     <div className={styles.container}>
       <h2>Game score</h2>
@@ -11,58 +16,13 @@ export const Score = () => {
           <th>Result</th>
         </tr>
 
-        <tr>
-          <td>paper</td>
-          <td>scissors</td>
-          <td>lost</td>
-        </tr>
-
-        <tr>
-          <td>paper</td>
-          <td>scissors</td>
-          <td>lost</td>
-        </tr>
-
-        <tr>
-          <td>paper</td>
-          <td>scissors</td>
-          <td>lost</td>
-        </tr>
-        <tr>
-          <td>paper</td>
-          <td>scissors</td>
-          <td>lost</td>
-        </tr>
-        <tr>
-          <td>paper</td>
-          <td>scissors</td>
-          <td>lost</td>
-        </tr>
-        <tr>
-          <td>paper</td>
-          <td>scissors</td>
-          <td>lost</td>
-        </tr>
-        <tr>
-          <td>paper</td>
-          <td>scissors</td>
-          <td>lost</td>
-        </tr>
-        <tr>
-          <td>paper</td>
-          <td>scissors</td>
-          <td>lost</td>
-        </tr>
-        <tr>
-          <td>paper</td>
-          <td>scissors</td>
-          <td>lost</td>
-        </tr>
-        <tr>
-          <td>paper</td>
-          <td>scissors</td>
-          <td>lost</td>
-        </tr>
+        {score?.map((sc, i) => (
+          <tr key={i}>
+            <td>{sc.player}</td>
+            <td>{sc.computer}</td>
+            <td>{sc.result}</td>
+          </tr>
+        ))}
       </table>
     </div>
   );
