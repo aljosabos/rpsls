@@ -12,6 +12,11 @@
       border: 1px solid gray;
       background-color: #fff;
       cursor: pointer;
+      transition: all 0.2s ease-in-out;
+
+      &:hover {
+        background-color: #faf8f8;
+      }
     }
   }
   .table {

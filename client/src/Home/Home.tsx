@@ -22,7 +22,6 @@ export const Home = () => {
   const [choices, setChoices] = useState<TChoice[]>([]);
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [gameResult, setGameResult] = useState<GameResult>();
-
   const [score, setScore] = useState<TScoreEntry[]>([]);
 
   const choicesMade: IChoicesMade = useMemo(() => {
