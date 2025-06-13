@@ -6,6 +6,8 @@ import { playGame, type GameResult } from "../api/play";
 import { Choice } from "../components/Choice/Choice";
 import { ChoiceCardsConfig } from "./Home.constants";
 import { Gameplay } from "../components/Gameplay/Gameplay";
+import { Score } from "../components/Score/Score";
+import Rules from "../../public/images/rules.png";
 
 interface IChoicesMade {
   player: TChoiceName | undefined;
@@ -55,43 +57,60 @@ export const Home = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <div>
-        <h1>Welcome to the Rock, Paper, Scissors, Lizard, Spock Game</h1>
-        <p>{isGameStarted ? "Game started" : "Click to start the game"}</p>
-        <button
-          onClick={handleStartGame}
-          className={styles.startBtn}
-          disabled={isGameStarted}
-        >
-          {gameResult ? "Play again" : "Play"}
-        </button>
+    <div className={styles.wrapper}>
+      <div className={styles.container}>
+        <div>
+          <h1>Welcome to the Rock, Paper, Scissors, Lizard, Spock Game</h1>
+          <p>{isGameStarted ? "Game started" : "Click to start the game"}</p>
+          <button
+            onClick={handleStartGame}
+            className={styles.startBtn}
+            disabled={isGameStarted}
+          >
+            {gameResult ? "Play again" : "Play"}
+          </button>
 
-        {gameResult && (
-          <Gameplay
-            player={choicesMade.player}
-            computer={choicesMade.computer}
-            result={gameResult.results}
-          />
-        )}
-      </div>
-
-      {isGameStarted && (
-        <div className={styles.choicesWrapper}>
-          <p>Choose one of the options:</p>
-
-          <div className={styles.choices}>
-            {choices?.map((choice) => (
-              <Choice
-                key={choice.name}
-                title={choice.name}
-                imageSrc={ChoiceCardsConfig[choice.name].image}
-                onClick={() => handlePlayGame(choice.name)}
-              />
-            ))}
-          </div>
+          {gameResult && (
+            <Gameplay
+              player={choicesMade.player}
+              computer={choicesMade.computer}
+              result={gameResult.results}
+            />
+          )}
         </div>
-      )}
+        <div>
+          {isGameStarted && (
+            <div className={styles.choicesWrapper}>
+              <p>Choose one of the options:</p>
+
+              <div className={styles.choices}>
+                {choices?.map((choice) => (
+                  <Choice
+                    key={choice.name}
+                    title={choice.name}
+                    imageSrc={ChoiceCardsConfig[choice.name].image}
+                    onClick={() => handlePlayGame(choice.name)}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      <aside className={styles.sidebar}>
+        <Score />
+
+        <div className={styles.rules}>
+          <h2>Game rules</h2>
+          <img src={Rules} alt="rules" className={styles.rulesImg} />
+
+          <p>
+            Scissors cuts Paper covers Rock crushes Lizard poisons Spock smashes
+            Scissors decapitates Lizard eats Paper disproves Spock vaporizes
+            Rock crushes Scissors
+          </p>
+        </div>
+      </aside>
     </div>
   );
 };
