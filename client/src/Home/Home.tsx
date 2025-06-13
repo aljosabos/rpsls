@@ -80,6 +80,11 @@ export const Home = () => {
       return updatedScore;
     });
   }, [choicesMade.computer, choicesMade.player, gameResult?.results]);
+
+  const handleScoreReset = () => {
+    setScore([]);
+  };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -123,7 +128,7 @@ export const Home = () => {
         </div>
       </div>
       <aside className={styles.sidebar}>
-        <Score score={score} />
+        <Score score={score} onClick={handleScoreReset} />
 
         <div className={styles.rules}>
           <h2>Game rules</h2>

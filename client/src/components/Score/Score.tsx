@@ -3,12 +3,16 @@ import styles from "./Score.module.scss";
 
 interface IScore {
   score: TScoreEntry[];
+  onClick: () => void;
 }
 
-export const Score = ({ score }: IScore) => {
+export const Score = ({ score, onClick }: IScore) => {
   return (
     <div className={styles.container}>
-      <h2>Game score</h2>
+      <div className={styles.scoreHeader}>
+        <h2>Game score</h2>
+        {!!score.length && <button onClick={onClick}>Clear score</button>}
+      </div>
       <table className={styles.table}>
         <tr>
           <th>Player</th>
