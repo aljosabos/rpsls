@@ -4,11 +4,11 @@ import type { TChoice, TChoiceName } from "../types/types";
 import { getChoices } from "../api/choise";
 import { playGame, type GameResult } from "../api/play";
 import { Choice } from "../components/Choice/Choice";
-import { ChoiceCardsConfig } from "./Home.constants";
+import { ChoiceCardsConfig, MAX_SCORE } from "./Home.constants";
 import { Gameplay } from "../components/Gameplay/Gameplay";
 import { Score } from "../components/Score/Score";
-import Rules from "../../public/images/rules.png";
 import type { IChoicesMade, TScoreEntry } from "./Home.types";
+import { Rules } from "../components/Rules/Rules";
 
 export const Home = () => {
   const [choices, setChoices] = useState<TChoice[]>([]);
@@ -40,6 +40,7 @@ export const Home = () => {
 
   const handleStartGame = () => {
     if (isGameStarted) return;
+
     setIsGameStarted(true);
     setGameResult(undefined);
   };
@@ -51,10 +52,12 @@ export const Home = () => {
       result: gameResult?.results,
     };
 
+    setIsGameStarted(false);
+
     setScore((currScore) => {
       let updatedScore: TScoreEntry[] = [];
-
-      if (currScore.length >= 10) {
+      // up to 10 latest results are displayed
+      if (currScore.length >= MAX_SCORE) {
         updatedScore = [...currScore, newScore].slice(1);
       } else {
         updatedScore = [...currScore, newScore];
@@ -64,12 +67,15 @@ export const Home = () => {
     });
   }, [choicesMade.computer, choicesMade.player, gameResult?.results]);
 
+  const handleClearScore = () => {
+    setScore([]);
+  };
+
   const handlePlayGame = async (name: TChoiceName) => {
     const data = await playGame(name);
 
     if (data) {
       setGameResult(data);
-      setIsGameStarted(false);
     }
   };
 
@@ -96,38 +102,28 @@ export const Home = () => {
             />
           )}
         </div>
-        <div>
-          {isGameStarted && (
-            <div className={styles.choicesWrapper}>
-              <p>Choose one of the options:</p>
 
-              <div className={styles.choices}>
-                {choices?.map((choice) => (
-                  <Choice
-                    key={choice.name}
-                    title={choice.name}
-                    imageSrc={ChoiceCardsConfig[choice.name].image}
-                    onClick={() => handlePlayGame(choice.name)}
-                  />
-                ))}
-              </div>
+        {isGameStarted && (
+          <div className={styles.choicesWrapper}>
+            <p>Choose one of the options:</p>
+
+            <div className={styles.choices}>
+              {choices?.map((choice) => (
+                <Choice
+                  key={choice.name}
+                  title={choice.name}
+                  imageSrc={ChoiceCardsConfig[choice.name].image}
+                  onClick={() => handlePlayGame(choice.name)}
+                />
+              ))}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
+
       <aside className={styles.sidebar}>
-        <Score score={score} onClick={() => setScore([])} />
-
-        <div className={styles.rules}>
-          <h2>Game rules</h2>
-          <img src={Rules} alt="rules" className={styles.rulesImg} />
-
-          <p>
-            Scissors cuts Paper covers Rock crushes Lizard poisons Spock smashes
-            Scissors decapitates Lizard eats Paper disproves Spock vaporizes
-            Rock crushes Scissors
-          </p>
-        </div>
+        <Score score={score} onClick={handleClearScore} />
+        <Rules />
       </aside>
     </div>
   );

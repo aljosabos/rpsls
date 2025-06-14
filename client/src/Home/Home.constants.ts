@@ -30,3 +30,5 @@ export const ChoiceCardsConfig: Record<
     image: Spock,
   },
 };
+
+export const MAX_SCORE = 10;
