@@ -5,6 +5,10 @@
   gap: 2rem;
   margin-top: 5rem;
 
+  @media only screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+
   .card {
     display: flex;
     flex-direction: column;
@@ -13,6 +17,11 @@
     border-radius: 15px;
     padding: 2.5rem 4rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+
+    @media only screen and (max-width: 1000px) {
+      padding: 1.5rem 3rem;
+    }
+
     h2 {
       text-transform: uppercase;
     }
@@ -22,7 +31,6 @@
     font-size: 2rem;
     text-transform: uppercase;
     font-weight: 600;
-    width: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -66,16 +74,16 @@
 }
 
 .cardWin::after {
-  background-color: #10b981;
+  background-color: #05d590;
   height: 100%;
 }
 
 .cardLose::after {
-  background-color: #ef4444;
+  background-color: #f14040;
   height: 100%;
 }
 
 .cardTie::after {
-  background-color: #bfdbfe;
+  background-color: #7bb2f7;
   height: 100%;
 }

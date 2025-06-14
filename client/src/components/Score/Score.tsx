@@ -1,4 +1,5 @@
-import type { TScoreEntry } from "../../Home/Home";
+import type { TScoreEntry } from "../../Home/Home.types";
+import { resultColorMap } from "../Gameplay/Gameplay.constants";
 import styles from "./Score.module.scss";
 
 interface IScore {
@@ -24,7 +25,12 @@ export const Score = ({ score, onClick }: IScore) => {
           <tr key={i}>
             <td>{sc.player}</td>
             <td>{sc.computer}</td>
-            <td>{sc.result}</td>
+            <td
+              style={{ color: sc.result ? resultColorMap[sc.result] : "" }}
+              className={styles.result}
+            >
+              {sc.result}
+            </td>
           </tr>
         ))}
       </table>

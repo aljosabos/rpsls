@@ -8,21 +8,21 @@ import { ChoiceCardsConfig } from "./Home.constants";
 import { Gameplay } from "../components/Gameplay/Gameplay";
 import { Score } from "../components/Score/Score";
 import Rules from "../../public/images/rules.png";
-
-interface IChoicesMade {
-  player: TChoiceName | undefined;
-  computer: TChoiceName | undefined;
-}
-
-export type TScoreEntry = IChoicesMade & {
-  result: "win" | "lose" | "tie" | undefined;
-};
+import type { IChoicesMade, TScoreEntry } from "./Home.types";
 
 export const Home = () => {
   const [choices, setChoices] = useState<TChoice[]>([]);
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [gameResult, setGameResult] = useState<GameResult>();
   const [score, setScore] = useState<TScoreEntry[]>([]);
+
+  useEffect(() => {
+    if (!isGameStarted) return;
+
+    getChoices().then((data) => {
+      if (data) setChoices(data);
+    });
+  }, [isGameStarted]);
 
   const choicesMade: IChoicesMade = useMemo(() => {
     const playerChoice = choices.find(
@@ -38,23 +38,6 @@ export const Home = () => {
     };
   }, [choices, gameResult?.computerChoice, gameResult?.player]);
 
-  useEffect(() => {
-    if (!isGameStarted) return;
-
-    getChoices().then((data) => {
-      if (data) setChoices(data);
-    });
-  }, [isGameStarted]);
-
-  const handlePlayGame = async (name: TChoiceName) => {
-    const data = await playGame(name);
-
-    if (data) {
-      setGameResult(data);
-      setIsGameStarted(false);
-    }
-  };
-
   const handleStartGame = () => {
     if (isGameStarted) return;
     setIsGameStarted(true);
@@ -62,12 +45,13 @@ export const Home = () => {
   };
 
   const handleAddScore = useCallback(() => {
+    const newScore = {
+      player: choicesMade.player,
+      computer: choicesMade.computer,
+      result: gameResult?.results,
+    };
+
     setScore((currScore) => {
-      const newScore = {
-        player: choicesMade.player,
-        computer: choicesMade.computer,
-        result: gameResult?.results,
-      };
       let updatedScore: TScoreEntry[] = [];
 
       if (currScore.length >= 10) {
@@ -80,8 +64,13 @@ export const Home = () => {
     });
   }, [choicesMade.computer, choicesMade.player, gameResult?.results]);
 
-  const handleScoreReset = () => {
-    setScore([]);
+  const handlePlayGame = async (name: TChoiceName) => {
+    const data = await playGame(name);
+
+    if (data) {
+      setGameResult(data);
+      setIsGameStarted(false);
+    }
   };
 
   return (
@@ -127,7 +116,7 @@ export const Home = () => {
         </div>
       </div>
       <aside className={styles.sidebar}>
-        <Score score={score} onClick={handleScoreReset} />
+        <Score score={score} onClick={() => setScore([])} />
 
         <div className={styles.rules}>
           <h2>Game rules</h2>

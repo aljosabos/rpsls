@@ -9,7 +9,7 @@ export const gameChoices: TChoiceName[] = [
 ];
 
 export const resultColorMap: Record<"win" | "lose" | "tie", string> = {
-  win: "#10B981",
-  lose: "#EF4444",
-  tie: "#BFDBFE",
+  win: "#05d590",
+  lose: "#f14040",
+  tie: "#7bb2f7",
 };
