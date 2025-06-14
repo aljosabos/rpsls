@@ -12,7 +12,7 @@ export const Score = ({ score, onClick }: IScore) => {
     <div className={styles.container}>
       <div className={styles.scoreHeader}>
         <h2>Game score</h2>
-        {!!score.length && <button onClick={onClick}>Clear score</button>}
+        <button onClick={onClick}>Clear score</button>
       </div>
       <table className={styles.table}>
         <tr>

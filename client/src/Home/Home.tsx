@@ -121,7 +121,7 @@ export const Home = () => {
       </div>
 
       <aside className={styles.sidebar}>
-        <Score score={score} onClick={handleClearScore} />
+        {score.length > 0 && <Score score={score} onClick={handleClearScore} />}
         <Rules />
       </aside>
     </div>

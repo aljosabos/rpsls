@@ -1,0 +1,27 @@
+// Small devices
+@mixin sm {
+  @media (max-width: 640px) {
+    @content;
+  }
+}
+
+// Medium devices
+@mixin md {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+// Large devices
+@mixin lg {
+  @media (max-width: 1000px) {
+    @content;
+  }
+}
+
+// Extra large devices
+@mixin xl {
+  @media (max-width: 1700px) {
+    @content;
+  }
+}

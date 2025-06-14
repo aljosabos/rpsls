@@ -1,3 +1,5 @@
+@import "../../scss/breakpoints";
+
 .card {
   display: flex;
   flex-direction: column;
@@ -14,19 +16,20 @@
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
   }
 
-  @media screen and (max-width: 640px) {
+  @include sm {
     flex-direction: row;
     padding: 0.3rem;
     width: 100%;
     width: 250px;
   }
+
   .image {
     min-width: 100px;
     height: 100px;
     object-fit: contain;
     margin-bottom: 0.5rem;
 
-    @media screen and (max-width: 640px) {
+    @include sm {
       min-width: 70px;
       height: 70px;
       margin: 0 1.5rem;
