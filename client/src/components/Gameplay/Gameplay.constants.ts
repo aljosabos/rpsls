@@ -1,3 +1,4 @@
+import type { TGameOutcome } from "../../Home/Home.types";
 import type { TChoiceName } from "../../types/types";
 
 export const gameChoices: TChoiceName[] = [
@@ -8,7 +9,7 @@ export const gameChoices: TChoiceName[] = [
   "spock",
 ];
 
-export const resultColorMap: Record<"win" | "lose" | "tie", string> = {
+export const resultColorMap: Record<TGameOutcome, string> = {
   win: "#05d590",
   lose: "#f14040",
   tie: "#7bb2f7",

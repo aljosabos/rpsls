@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import styles from "./Home.module.scss";
 import type { TChoice, TChoiceName } from "../types/types";
 import { getChoices } from "../api/choise";
-import { playGame, type GameResult } from "../api/play";
+import { playGame, type TGameResult } from "../api/play";
 import { Choice } from "../components/Choice/Choice";
 import { ChoiceCardsConfig, MAX_SCORE } from "./Home.constants";
 import { Gameplay } from "../components/Gameplay/Gameplay";
@@ -13,7 +13,7 @@ import { Rules } from "../components/Rules/Rules";
 export const Home = () => {
   const [choices, setChoices] = useState<TChoice[]>([]);
   const [isGameStarted, setIsGameStarted] = useState(false);
-  const [gameResult, setGameResult] = useState<GameResult>();
+  const [gameResult, setGameResult] = useState<TGameResult>();
   const [score, setScore] = useState<TScoreEntry[]>([]);
 
   useEffect(() => {

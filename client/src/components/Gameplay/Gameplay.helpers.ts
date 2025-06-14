@@ -1,8 +1,9 @@
+import type { TGameOutcome } from "../../Home/Home.types";
 import styles from "./Gameplay.module.scss";
 
 export const getCardClass = (
   side: "player" | "computer",
-  result: "win" | "lose" | "tie"
+  result: TGameOutcome
 ) => {
   const resultClassMap = {
     player: {

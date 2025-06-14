@@ -5,11 +5,12 @@ import { Choice } from "../Choice/Choice";
 import styles from "./Gameplay.module.scss";
 import { getCardClass } from "./Gameplay.helpers";
 import { gameChoices, resultColorMap } from "./Gameplay.constants";
+import type { TGameOutcome } from "../../Home/Home.types";
 
 interface IGameplayProps {
   player?: TChoiceName;
   computer?: TChoiceName;
-  result: "win" | "lose" | "tie";
+  result: TGameOutcome;
   onAnimationComplete: () => void;
 }
 
@@ -19,8 +20,10 @@ export const Gameplay = ({
   result,
   onAnimationComplete,
 }: IGameplayProps) => {
+  //Even though the result is available immediately,revealing the computers choice is delayed to show the animation
   const [isComputerChoiceRevealed, setIsComputerChoiceRevealed] =
     useState(false);
+  // temporary random choice shown while computer is 'thinking'
   const [animatedComputerChoice, setAnimatedComputerChoice] =
     useState<TChoiceName>();
 

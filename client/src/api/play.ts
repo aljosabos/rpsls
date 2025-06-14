@@ -1,14 +1,15 @@
+import type { TGameOutcome } from "../Home/Home.types";
 import type { TChoiceName } from "../types/types";
 
-export type GameResult = {
-  results: "win" | "lose" | "tie";
+export type TGameResult = {
+  results: TGameOutcome;
   player: number;
   computerChoice: number;
 };
 
 export const playGame = async (
   name: TChoiceName
-): Promise<GameResult | undefined> => {
+): Promise<TGameResult | undefined> => {
   try {
     const response = await fetch("/api/play", {
       method: "POST",
