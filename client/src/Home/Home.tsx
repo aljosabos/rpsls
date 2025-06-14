@@ -106,7 +106,6 @@ export const Home = () => {
         {isGameStarted && (
           <div className={styles.choicesWrapper}>
             <p>Choose one of the options:</p>
-
             <div className={styles.choices}>
               {choices?.map((choice) => (
                 <Choice

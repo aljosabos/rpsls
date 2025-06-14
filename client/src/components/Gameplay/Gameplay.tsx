@@ -65,7 +65,9 @@ export const Gameplay = ({
           isComputerChoiceRevealed && getCardClass("player", result)
         }`}
       >
-        <h2>you {isComputerChoiceRevealed && result !== "tie" && result}</h2>
+        <h2 className={styles.cardTitle}>
+          you {isComputerChoiceRevealed && result !== "tie" && result}
+        </h2>
         <Choice
           title={player}
           imageSrc={player && ChoiceCardsConfig[player].image}
@@ -85,7 +87,7 @@ export const Gameplay = ({
           isComputerChoiceRevealed && getCardClass("computer", result)
         }`}
       >
-        <h2>computer</h2>
+        <h2 className={styles.cardTitle}>computer</h2>
         <Choice title={computer} imageSrc={computerImage} />
       </div>
     </div>
