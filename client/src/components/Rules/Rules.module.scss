@@ -1,13 +1,20 @@
+@import "../../scss//breakpoints";
+
 .rules {
   margin: auto;
 
   h2 {
     margin: 3rem 0;
   }
+
   .rulesImg {
     display: block;
     max-width: 65%;
     margin: auto;
+
+    @include xl {
+      max-width: 40%;
+    }
   }
 
   p {
