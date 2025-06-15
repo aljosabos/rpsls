@@ -1,10 +1,11 @@
 import styles from "./Home.module.scss";
-import { Choice } from "../components/Choice/Choice";
 import { ChoiceCardsConfig } from "./Home.constants";
-import { Gameplay } from "../components/Gameplay/Gameplay";
-import { Score } from "../components/Score/Score";
-import { Rules } from "../components/Rules/Rules";
-import { useGame } from "../hooks/useGame";
+
+import { Choice } from "@components/Choice/Choice";
+import { Gameplay } from "@components/Gameplay/Gameplay";
+import { Score } from "@components/Score/Score";
+import { Rules } from "@components/Rules/Rules";
+import { useGame } from "@hooks/useGame";
 
 export const Home = () => {
   const {

@@ -1,4 +1,4 @@
-import type { TGameOutcome } from "../../Home/Home.types";
+import type { TGameOutcome } from "@/Home/Home.types";
 import styles from "./Gameplay.module.scss";
 
 export const getCardClass = (

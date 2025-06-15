@@ -1,5 +1,5 @@
-import type { TScoreEntry } from "../../Home/Home.types";
-import { resultColorMap } from "../Gameplay/Gameplay.constants";
+import type { TScoreEntry } from "@/Home/Home.types";
+import { resultColorMap } from "@components/Gameplay/Gameplay.constants";
 import styles from "./Score.module.scss";
 
 interface IScore {

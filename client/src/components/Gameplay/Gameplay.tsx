@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
-import { ChoiceCardsConfig } from "../../Home/Home.constants";
-import type { TChoiceName } from "../../types/types";
-import { Choice } from "../Choice/Choice";
+
+import { ChoiceCardsConfig } from "@/Home/Home.constants";
+import type { TChoiceName } from "@/types/types";
+import { Choice } from "@components/Choice/Choice";
 import styles from "./Gameplay.module.scss";
 import { getCardClass } from "./Gameplay.helpers";
+
 import {
   ANIMATION_DURATION,
   ANIMATION_INTERVAL,
   gameChoices,
   resultColorMap,
 } from "./Gameplay.constants";
-import type { TGameOutcome } from "../../Home/Home.types";
+
+import type { TGameOutcome } from "@/Home/Home.types";
 
 interface IGameplayProps {
   player?: TChoiceName;

@@ -1,6 +1,5 @@
-import "./App.scss";
-import { Home } from "./Home/Home";
-import "./index.scss";
+import { Home } from "@/Home/Home";
+import "@/index.scss";
 
 function App() {
   return <Home />;

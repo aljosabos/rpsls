@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type { TChoice, TChoiceName } from "../types/types";
-import { playGame, type TGameResult } from "../api/play";
-import type { IChoicesMade, TScoreEntry } from "../Home/Home.types";
-import { getChoices } from "../api/choise";
-import { MAX_SCORE } from "../Home/Home.constants";
+import type { TChoice, TChoiceName } from "@/types/types";
+import { playGame, type TGameResult } from "@/api/play";
+import type { IChoicesMade, TScoreEntry } from "@/Home/Home.types";
+import { getChoices } from "@/api/choise";
+import { MAX_SCORE } from "@/Home/Home.constants";
 
 export const useGame = () => {
   const [availableChoices, setAvailableChoices] = useState<TChoice[]>([]);
