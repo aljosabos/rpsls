@@ -15,24 +15,27 @@ export const Score = ({ score, onClick }: IScore) => {
         <button onClick={onClick}>Clear score</button>
       </div>
       <table className={styles.table}>
-        <tr>
-          <th>Player</th>
-          <th>Computer</th>
-          <th>Result</th>
-        </tr>
-
-        {score?.map((sc, i) => (
-          <tr key={i}>
-            <td>{sc.player}</td>
-            <td>{sc.computer}</td>
-            <td
-              style={{ color: sc.result ? resultColorMap[sc.result] : "" }}
-              className={styles.result}
-            >
-              {sc.result}
-            </td>
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Computer</th>
+            <th>Result</th>
           </tr>
-        ))}
+        </thead>
+        <tbody>
+          {score?.map((sc, i) => (
+            <tr key={i}>
+              <td>{sc.player}</td>
+              <td>{sc.computer}</td>
+              <td
+                style={{ color: sc.result ? resultColorMap[sc.result] : "" }}
+                className={styles.result}
+              >
+                {sc.result}
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   );
