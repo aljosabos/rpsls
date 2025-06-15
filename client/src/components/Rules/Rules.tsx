@@ -1,5 +1,5 @@
 import styles from "./Rules.module.scss";
-import RulesImg from "../../../public/images/rules.png";
+import RulesImg from "../../assets/rules.png";
 
 export const Rules = () => {
   return (

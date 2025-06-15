@@ -43,14 +43,14 @@ export const Home = () => {
 
         {availableChoices.length > 0 && (
           <div className={styles.choicesWrapper}>
-            <p>Choose one of the options:</p>
+            {!isLoading && isGameStarted && <p>Choose one of the options:</p>}
             <div className={styles.choices}>
               {availableChoices.map((choice) => (
                 <Choice
                   key={choice.name}
                   title={choice.name}
                   imageSrc={ChoiceCardsConfig[choice.name].image}
-                  disabled={isLoading}
+                  disabled={isLoading || !isGameStarted}
                   onClick={() => controls.makeChoice(choice.name)}
                 />
               ))}

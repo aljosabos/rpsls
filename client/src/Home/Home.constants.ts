@@ -1,8 +1,8 @@
-import Paper from "../../public/images/paper.png";
-import Rock from "../../public/images/rock.png";
-import Scissors from "../../public/images/scissors.png";
-import Lizard from "../../public/images/lizard.png";
-import Spock from "../../public/images/spock.png";
+import Paper from "../assets/paper.png";
+import Rock from "../assets/rock.png";
+import Scissors from "../assets/scissors.png";
+import Lizard from "../assets/lizard.png";
+import Spock from "../assets/spock.png";
 import type { TChoiceName } from "../types/types";
 
 export const ChoiceCardsConfig: Record<
