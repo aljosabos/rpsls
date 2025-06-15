@@ -15,6 +15,7 @@ export const Home = () => {
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [gameResult, setGameResult] = useState<TGameResult>();
   const [score, setScore] = useState<TScoreEntry[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!isGameStarted) return;
@@ -52,8 +53,6 @@ export const Home = () => {
       result: gameResult?.results,
     };
 
-    setIsGameStarted(false);
-
     setScore((currScore) => {
       let updatedScore: TScoreEntry[] = [];
       // up to 10 latest results are displayed
@@ -62,6 +61,9 @@ export const Home = () => {
       } else {
         updatedScore = [...currScore, newScore];
       }
+
+      setIsGameStarted(false);
+      setIsLoading(false);
 
       return updatedScore;
     });
@@ -72,6 +74,10 @@ export const Home = () => {
   };
 
   const handlePlayGame = async (name: TChoiceName) => {
+    if (!isGameStarted) return;
+
+    setIsLoading(true);
+
     const data = await playGame(name);
 
     if (data) {
@@ -103,15 +109,16 @@ export const Home = () => {
           )}
         </div>
 
-        {isGameStarted && (
+        {choices.length > 0 && (
           <div className={styles.choicesWrapper}>
             <p>Choose one of the options:</p>
             <div className={styles.choices}>
-              {choices?.map((choice) => (
+              {choices.map((choice) => (
                 <Choice
                   key={choice.name}
                   title={choice.name}
                   imageSrc={ChoiceCardsConfig[choice.name].image}
+                  disabled={isLoading}
                   onClick={() => handlePlayGame(choice.name)}
                 />
               ))}
