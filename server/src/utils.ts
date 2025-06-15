@@ -14,9 +14,6 @@ export const getWinner = (
     return "tie";
   }
 
-  console.log(playerChoice);
-  console.log(computerChoice);
-
   if (winningMap[playerChoice.name].includes(computerChoice.name)) {
     return "win";
   } else {

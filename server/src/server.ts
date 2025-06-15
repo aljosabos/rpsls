@@ -29,12 +29,16 @@ app.get("/api/choice", async (req, res) => {
     const data = await randomNumberResponse.json();
     const { random_number } = data;
 
-    if (random_number) {
+    if (random_number || random_number === 0) {
       const computerChoice = mapNumberToChoice(random_number);
+
       res.json(computerChoice);
+    } else {
+      res.status(500).json({ error: "Invalid random number response" });
     }
   } catch (err) {
     console.log(err);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -47,15 +51,25 @@ app.post("/api/play", async (req, res) => {
 
     const { player: playerChoice } = req.body;
 
-    const playerChoiceObj: Choice = choices.filter(
+    if (!playerChoice) {
+      res.status(400).json({ error: "Missing player choice" });
+      return;
+    }
+
+    const playerChoiceData: Choice = choices.filter(
       (choice) => choice.name === playerChoice
     )?.[0];
 
-    const results = getWinner(playerChoiceObj, computerChoice);
+    if (!playerChoiceData) {
+      res.status(400).json({ error: "Invalid player choice" });
+      return;
+    }
+
+    const results = getWinner(playerChoiceData, computerChoice);
 
     res.json({
       results,
-      player: playerChoiceObj.id,
+      player: playerChoiceData.id,
       computerChoice: computerChoice.id,
     });
   } catch (err) {
@@ -63,12 +77,13 @@ app.post("/api/play", async (req, res) => {
   }
 });
 
+// serve react app
 app.use(express.static(join(__dirname, "../../client/dist")));
 
 const PORT = process.env.PORT || 3010;
 
 app.listen(PORT, () => {
-  console.log("App is listening on port 3010....");
+  console.log(`App is listening on port ${PORT}....`);
 });
 
 export default app;
