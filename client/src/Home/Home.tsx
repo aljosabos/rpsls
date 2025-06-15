@@ -1,89 +1,21 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
 import styles from "./Home.module.scss";
-import type { TChoice, TChoiceName } from "../types/types";
-import { getChoices } from "../api/choise";
-import { playGame, type TGameResult } from "../api/play";
 import { Choice } from "../components/Choice/Choice";
-import { ChoiceCardsConfig, MAX_SCORE } from "./Home.constants";
+import { ChoiceCardsConfig } from "./Home.constants";
 import { Gameplay } from "../components/Gameplay/Gameplay";
 import { Score } from "../components/Score/Score";
-import type { IChoicesMade, TScoreEntry } from "./Home.types";
 import { Rules } from "../components/Rules/Rules";
+import { useGame } from "../hooks/useGame";
 
 export const Home = () => {
-  const [choices, setChoices] = useState<TChoice[]>([]);
-  const [isGameStarted, setIsGameStarted] = useState(false);
-  const [gameResult, setGameResult] = useState<TGameResult>();
-  const [score, setScore] = useState<TScoreEntry[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    if (!isGameStarted) return;
-
-    getChoices().then((data) => {
-      if (data) setChoices(data);
-    });
-  }, [isGameStarted]);
-
-  const choicesMade: IChoicesMade = useMemo(() => {
-    const playerChoice = choices.find(
-      (choice) => choice.id === gameResult?.player
-    );
-    const computerChoice = choices.find(
-      (choice) => choice.id === gameResult?.computerChoice
-    );
-
-    return {
-      player: playerChoice?.name,
-      computer: computerChoice?.name,
-    };
-  }, [choices, gameResult?.computerChoice, gameResult?.player]);
-
-  const handleStartGame = () => {
-    if (isGameStarted) return;
-
-    setIsGameStarted(true);
-    setGameResult(undefined);
-  };
-
-  const handleAddScore = useCallback(() => {
-    const newScore = {
-      player: choicesMade.player,
-      computer: choicesMade.computer,
-      result: gameResult?.results,
-    };
-
-    setScore((currScore) => {
-      let updatedScore: TScoreEntry[] = [];
-      // up to 10 latest results are displayed
-      if (currScore.length >= MAX_SCORE) {
-        updatedScore = [...currScore, newScore].slice(1);
-      } else {
-        updatedScore = [...currScore, newScore];
-      }
-
-      setIsGameStarted(false);
-      setIsLoading(false);
-
-      return updatedScore;
-    });
-  }, [choicesMade.computer, choicesMade.player, gameResult?.results]);
-
-  const handleClearScore = () => {
-    setScore([]);
-  };
-
-  const handlePlayGame = async (name: TChoiceName) => {
-    if (!isGameStarted) return;
-
-    setIsLoading(true);
-
-    const data = await playGame(name);
-
-    if (data) {
-      setGameResult(data);
-    }
-  };
+  const {
+    availableChoices,
+    choicesMade,
+    results,
+    score,
+    isGameStarted,
+    isLoading,
+    controls,
+  } = useGame();
 
   return (
     <div className={styles.wrapper}>
@@ -92,34 +24,34 @@ export const Home = () => {
           <h1>Welcome to the Rock, Paper, Scissors, Lizard, Spock Game</h1>
           <p>{isGameStarted ? "Game started" : "Click to start the game"}</p>
           <button
-            onClick={handleStartGame}
+            onClick={controls.start}
             className={styles.startBtn}
             disabled={isGameStarted}
           >
-            {gameResult ? "Play again" : "Play"}
+            {results ? "Play again" : "Play"}
           </button>
 
-          {gameResult && (
+          {results && (
             <Gameplay
               player={choicesMade.player}
               computer={choicesMade.computer}
-              result={gameResult.results}
-              onAnimationComplete={handleAddScore}
+              result={results.results}
+              onAnimationComplete={controls.addScore}
             />
           )}
         </div>
 
-        {choices.length > 0 && (
+        {availableChoices.length > 0 && (
           <div className={styles.choicesWrapper}>
             <p>Choose one of the options:</p>
             <div className={styles.choices}>
-              {choices.map((choice) => (
+              {availableChoices.map((choice) => (
                 <Choice
                   key={choice.name}
                   title={choice.name}
                   imageSrc={ChoiceCardsConfig[choice.name].image}
                   disabled={isLoading}
-                  onClick={() => handlePlayGame(choice.name)}
+                  onClick={() => controls.makeChoice(choice.name)}
                 />
               ))}
             </div>
@@ -128,7 +60,9 @@ export const Home = () => {
       </div>
 
       <aside className={styles.sidebar}>
-        {score.length > 0 && <Score score={score} onClick={handleClearScore} />}
+        {score.length > 0 && (
+          <Score score={score} onClick={controls.clearScore} />
+        )}
         <Rules />
       </aside>
     </div>
